@@ -1,58 +1,27 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MessageToggleApp());
+void main() => runApp(MaterialApp(home: ToggleMessage()));
 
-class MessageToggleApp extends StatelessWidget {
+class ToggleMessage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Message Toggle',
-      home: MessageToggleHome(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
+  _ToggleMessageState createState() => _ToggleMessageState();
 }
 
-class MessageToggleHome extends StatefulWidget {
-  @override
-  _MessageToggleHomeState createState() => _MessageToggleHomeState();
-}
-
-class _MessageToggleHomeState extends State<MessageToggleHome> {
-  bool _showHello = true; // Toggle flag
-
-  void _toggleMessage() {
-    setState(() {
-      _showHello = !_showHello;
-    });
-  }
+class _ToggleMessageState extends State<ToggleMessage> {
+  bool showHello = true;
+  void toggle() => setState(() => showHello = !showHello);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Message Toggle App'),
-        centerTitle: true,
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Text("Toggle")),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(showHello ? "Hello" : "World!", style: TextStyle(fontSize: 30)),
+          ElevatedButton(onPressed: toggle, child: Text("Toggle")),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _showHello
-                  ? 'RV College of Engineering!'
-                  : 'Go Change the World!',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _toggleMessage,
-              child: Text('Toggle Message'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    ),
+  );
 }
