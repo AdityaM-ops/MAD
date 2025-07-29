@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(home: GestureScreen()));
-
-class GestureScreen extends StatefulWidget {
-  @override
-  _GestureScreenState createState() => _GestureScreenState();
+void main() => runApp(MyApp());
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+    return MaterialApp(home: GestureApp());
+  }
 }
 
-class _GestureScreenState extends State<GestureScreen> {
-  String message = "Double-tap or Swipe";
 
-  void update(String text) => setState(() => message = text);
+
+class GestureApp extends StatelessWidget {
+  final ValueNotifier<String> msg = ValueNotifier("Swipe or Double Tap");
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text("Gesture")),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onDoubleTap: () => update("Double Tapped"),
-            onHorizontalDragEnd: (d) => update(d.velocity.pixelsPerSecond.dx > 0 ? "Swiped Right" : "Swiped Left"),
-            onVerticalDragEnd: (d) => update(d.velocity.pixelsPerSecond.dy > 0 ? "Swiped Down" : "Swiped Up"),
-            child: ElevatedButton(onPressed: () {}, child: Text("Tap/Swipe Here")),
-          ),
-          SizedBox(height: 20),
-          Text(message, style: TextStyle(fontSize: 24)),
-        ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Gesture")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onDoubleTap: () => msg.value = "Double Tapped!",
+              onHorizontalDragEnd: (d) => msg.value = d.velocity.pixelsPerSecond.dx > 0 ? "Swiped Right" : "Swiped Left",
+              onVerticalDragEnd: (d) => msg.value = d.velocity.pixelsPerSecond.dy > 0 ? "Swiped Down" : "Swiped Up",
+              child: ElevatedButton(onPressed: () {}, child: Text("Interact")),
+            ),
+            SizedBox(height: 20),
+            ValueListenableBuilder(
+              valueListenable: msg,
+              builder: (_, val, __) => Text(val, style: TextStyle(fontSize: 24)),
+            )
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
