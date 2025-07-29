@@ -1,83 +1,34 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(GestureApp());
+void main() => runApp(MaterialApp(home: GestureScreen()));
 
-class GestureApp extends StatelessWidget {
+class GestureScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Gesture Demo",
-      home: GestureDemo(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
+  _GestureScreenState createState() => _GestureScreenState();
 }
 
-class GestureDemo extends StatefulWidget {
-  @override
-  _GestureDemoState createState() => _GestureDemoState();
-}
+class _GestureScreenState extends State<GestureScreen> {
+  String message = "Double-tap or Swipe";
 
-class _GestureDemoState extends State<GestureDemo> {
-  String _message = "Try double-tap or swipe in any direction";
-
-  void _onDoubleTap() {
-    setState(() {
-      _message = "Double Tapped!";
-    });
-  }
-
-  void _onSwipe(String direction) {
-    setState(() {
-      _message = "Swiped $direction";
-    });
-  }
+  void update(String text) => setState(() => message = text);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Gesture Detector Demo")),
-      body: Center( // ✅ Center the content
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onDoubleTap: _onDoubleTap,
-              onHorizontalDragEnd: (details) {
-                final dx = details.velocity.pixelsPerSecond.dx;
-                if (dx > 0) {
-                  _onSwipe("Right");
-                } else if (dx < 0) {
-                  _onSwipe("Left");
-                }
-              },
-              onVerticalDragEnd: (details) {
-                final dy = details.velocity.pixelsPerSecond.dy;
-                if (dy > 0) {
-                  _onSwipe("Down");
-                } else if (dy < 0) {
-                  _onSwipe("Up");
-                }
-              },
-              child: ElevatedButton(
-                
-                onPressed: () {},
-                child: Text(
-                  "Swipe / Double Tap Here",
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            Text(
-              _message,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Text("Gesture")),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onDoubleTap: () => update("Double Tapped"),
+            onHorizontalDragEnd: (d) => update(d.velocity.pixelsPerSecond.dx > 0 ? "Swiped Right" : "Swiped Left"),
+            onVerticalDragEnd: (d) => update(d.velocity.pixelsPerSecond.dy > 0 ? "Swiped Down" : "Swiped Up"),
+            child: ElevatedButton(onPressed: () {}, child: Text("Tap/Swipe Here")),
+          ),
+          SizedBox(height: 20),
+          Text(message, style: TextStyle(fontSize: 24)),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
