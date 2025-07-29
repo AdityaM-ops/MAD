@@ -1,36 +1,38 @@
  first.html
 
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Document</title>
-
-<link rel="manifest" href="/manifest.json">
-
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <link rel="manifest" href="/manifest.json" />
+  <script>
+    localStorage.setItem("username", "rvce");
+    localStorage.setItem("passme1", "rvce");
+  </script>
 </head>
-
 <body>
-
-<script src="login.js"></script>
-
-<p>Username: <input type="text" name="username" id="username"></p>
-
-<p>Password: <input type="password" name="password" id="password"></p>
-
-<p><input type="submit" value="check" onclick="verify()"></p>
-
-inside the html page with manifest
-
+  <form onsubmit="event.preventDefault(); 
+    const u = document.getElementById('username').value;
+    const p = document.getElementById('password').value;
+    const un = localStorage.getItem('username');
+    const pw = localStorage.getItem('passme1');
+    if (u === un && p === pw) {
+      alert('Authentication done');
+    } else {
+      alert('Authentication failure');
+    }">
+    <p>Username: <input type="text" id="username" /></p>
+    <p>Password: <input type="password" id="password" /></p>
+    <p><input type="submit" value="Submit" /></p>
+  </form>
 </body>
-
 </html>
+
+
+
 
 
 
@@ -101,40 +103,4 @@ manifest.json
  
  
  
- login.js 
 
- 
-
-localStorage.setItem("username","rvce");
-
-localStorage.setItem("passme1","rvce");
-
- 
-
-function verify(){
-
-let username = document.getElementById("username").value;
-
-let password = document.getElementById("password").value;
-
-let un = localStorage.getItem("username");
-
-let pas = localStorage.getItem("passme1");
-
-alert(username+" "+password+" "+un+" "+pas);
-
-let stun =un.localeCompare(username);
-
-let spass =pas.localeCompare(password)
-
-if( stun !=-1 && spass!=-1 ){
-
-alert("authentication done");
-
-}else{
-
-alert("authentication failure");
-
-}
-
-}
