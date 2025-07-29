@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(home: HistoryCounter()));
+void main() => runApp(MyApp());
+class MyApp extends StatelessWidget{
+  Widget build(BuildContext context){
+    return MaterialApp(home: HistoryCounter());
+  }
+}
 
 class HistoryCounter extends StatefulWidget {
   @override
@@ -41,3 +46,5 @@ class _HistoryCounterState extends State<HistoryCounter> {
     ),
   );
 }
+
+
