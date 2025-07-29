@@ -145,23 +145,14 @@ self.addEventListener('activate', _event => {
 
  
 
-self.addEventListener('fetch', async (event) => {
+// service-worker.js
 
-        	event.respondWith(
-
-                    	caches.match(event.request)
-
-                                	.then(respevt => {
-
-                                            	return respevt || fetch(event.request);
-
-                    	})
-
-        	);
-
-        	console.log('inside the fetched', event);
-
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(res => res || fetch(event.request))
+  );
 });
+
 
 create img folder and files like,
 
