@@ -1,183 +1,43 @@
-
-
 import 'package:flutter/material.dart';
 
- 
+void main() => runApp(MaterialApp(home: HistoryCounter()));
 
-void main() {
-
-  runApp(CounterWithHistoryApp());
-
+class HistoryCounter extends StatefulWidget {
+  @override
+  _HistoryCounterState createState() => _HistoryCounterState();
 }
 
- 
+class _HistoryCounterState extends State<HistoryCounter> {
+  int count = 0;
+  List<int> history = [0];
 
-class CounterWithHistoryApp extends StatelessWidget {
-
-  @override
-
-  Widget build(BuildContext context) {
-
-    return MaterialApp(
-
-      title: 'Counter with History',
-
-      home: CounterHistoryPage(),
-
-    );
-
-  }
-
-}
-
- 
-
-class CounterHistoryPage extends StatefulWidget {
+  void change(int val) => setState(() {
+    count += val;
+    history.add(count);
+  });
 
   @override
-
-  _CounterHistoryPageState createState() => _CounterHistoryPageState();
-
-}
-
- 
-
-class _CounterHistoryPageState extends State<CounterHistoryPage> {
-
-  int _counter = 0;
-
-  List<int> _history = [0]; // Start with initial value in the history
-
- 
-
-  void _increment() {
-
-    setState(() {
-
-      _counter++;
-
-      _history.add(_counter);
-
-    });
-
-  }
-
- 
-
-  void _decrement() {
-
-    setState(() {
-
-      _counter--;
-
-      _history.add(_counter);
-
-    });
-
-  }
-
- 
-
-  @override
-
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-
-      appBar: AppBar(
-
-        title: Text('Counter with History'),
-
-        centerTitle: true,
-
-      ),
-
-      body: Padding(
-
-        padding: const EdgeInsets.all(16.0),
-
-        child: Column(
-
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Text("Counter History")),
+    body: Column(
+      children: [
+        Text('Current: $count', style: TextStyle(fontSize: 24)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Text(
-
-              'Current Value: $_counter',
-
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-
-            ),
-
-            SizedBox(height: 20),
-
-            Row(
-
-              mainAxisAlignment: MainAxisAlignment.center,
-
-              children: [
-
-                ElevatedButton(
-
-                  onPressed: _increment, 
-
-                  child: Text('Increment')
-
-                ),
-
-                SizedBox(width: 20),
-
-                ElevatedButton(
-
-                  onPressed: _decrement, 
-
-                  child: Text('Decrement')
-
-                ),
-
-              ],
-
-            ),
-
-            SizedBox(height: 30),
-
-            Text(
-
-              'Value History:',
-
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-
-            ),
-
-            Expanded(
-
-              child: ListView.builder(
-
-                itemCount: _history.length,
-
-                itemBuilder: (context, index) {
-
-                  return ListTile(
-
-                    leading: Text('#${index + 1}'),
-
-                    title: Text('Value: ${_history[index]}'),
-
-                  );
-
-                },
-
-              ),
-
-            ),
-
+            ElevatedButton(onPressed: () => change(1), child: Text("++")),
+            SizedBox(width: 10),
+            ElevatedButton(onPressed: () => change(-1), child: Text("--")),
           ],
-
         ),
-
-      ),
-
-    );
-
-  }
-
+        Text("History:"),
+        Expanded(
+          child: ListView.builder(
+            itemCount: history.length,
+            itemBuilder: (_, i) => ListTile(title: Text("Value: ${history[i]}")),
+          ),
+        )
+      ],
+    ),
+  );
 }
