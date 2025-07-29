@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(home: ToggleMessage()));
+void main() => runApp(Myapp());
+class Myapp extends StatelessWidget{
+Widget build(BuildContext context){
+return MaterialApp(home:ToggleMessage());
+}
+}
 
 class ToggleMessage extends StatefulWidget {
   @override
@@ -18,7 +23,7 @@ class _ToggleMessageState extends State<ToggleMessage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(showHello ? "Hello" : "World!", style: TextStyle(fontSize: 30)),
+          Text(showHello ? "Adi" : "M", style: TextStyle(fontSize: 30)),
           ElevatedButton(onPressed: toggle, child: Text("Toggle")),
         ],
       ),
